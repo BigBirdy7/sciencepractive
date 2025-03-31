@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Systems Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .quiz-container { width: 50%; margin: auto; }
+        .question { margin-bottom: 15px; }
+        .result { font-weight: bold; margin-top: 20px; }
+        .incorrect { background-color: #ffcccc; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Climate Systems Quiz</h1>
+        <form id="quiz-form">
+            <script>
+                let questions = [
+                    {q: "1. What layer of the atmosphere does weather occur in?", options: ["Stratosphere", "Troposphere", "Mesosphere"], answer: "Troposphere"},
+                    {q: "2. Which factor does NOT affect climate?", options: ["Altitude", "Proximity to water", "Moon phases"], answer: "Moon phases"},
+                    {q: "3. What process moves thermal energy through the atmosphere and hydrosphere?", options: ["Conduction", "Convection", "Radiation"], answer: "Convection"},
+                    {q: "4. What greenhouse gas is NOT naturally occurring?", options: ["CO2", "CFCs", "CH4"], answer: "CFCs"},
+                    {q: "5. What is the effect of melting permafrost?", options: ["Releases greenhouse gases", "Cools the atmosphere", "Stops erosion"], answer: "Releases greenhouse gases"},
+                    {q: "6. What is climate?", options: ["Short-term weather conditions", "Long-term average weather", "A sudden storm"], answer: "Long-term average weather"},
+                    {q: "7. What factor influences climate the most?", options: ["Latitude", "Road construction", "Cloud type"], answer: "Latitude"},
+                    {q: "8. What absorbs and radiates heat in the lithosphere?", options: ["Mountains", "Oceans", "Rocks and soil"], answer: "Rocks and soil"},
+                    {q: "9. What is the primary source of Earth's energy?", options: ["Moon", "Sun", "Volcanoes"], answer: "Sun"},
+                    {q: "10. What process moves ocean currents?", options: ["Conduction", "Thermohaline circulation", "Evaporation"], answer: "Thermohaline circulation"},
+                    {q: "11. What layer of frozen ground stores greenhouse gases?", options: ["Permafrost", "Ice caps", "Tundra"], answer: "Permafrost"},
+                    {q: "12. What is a major short-term climate change factor?", options: ["Volcanic eruptions", "Deforestation", "Urbanization"], answer: "Volcanic eruptions"},
+                    {q: "13. What is the greenhouse effect?", options: ["Trapping of heat by gases", "Cooling of the atmosphere", "Blocking of sunlight"], answer: "Trapping of heat by gases"},
+                    {q: "14. Which gas is the most abundant in the atmosphere?", options: ["Oxygen", "Nitrogen", "CO2"], answer: "Nitrogen"},
+                    {q: "15. What is the process of energy balance?", options: ["Energy absorbed equals energy radiated", "Energy is constantly increasing", "No energy is reflected"], answer: "Energy absorbed equals energy radiated"},
+                    {q: "16. What is the primary driver of global climate?", options: ["Sun", "Moon", "Volcanoes"], answer: "Sun"},
+                    {q: "17. What type of radiation does the Earth emit?", options: ["High energy", "Low energy", "Microwave"], answer: "Low energy"},
+                    {q: "18. What is the impact of melting glaciers?", options: ["Rising sea levels", "Lower temperatures", "Increased snowfall"], answer: "Rising sea levels"},
+                    {q: "19. What is the main reason sea levels rise?", options: ["Melting ice", "Evaporation", "Tectonic shifts"], answer: "Melting ice"},
+                    {q: "20. What is a major contributor to carbon emissions?", options: ["Transportation", "Deforestation", "Both"], answer: "Both"},
+                    {q: "21-50. More questions related to climate systems, proxy records, adaptation, and mitigation..."}
+                    {q: "21. What is the primary cause of weather changes?", options: ["Earth's rotation", "Energy from the Sun", "Ocean tides"], answer: "Energy from the Sun"},
+                    {q: "22. What factor does NOT significantly influence climate?", options: ["Latitude", "Proximity to water", "Daily weather changes"], answer: "Daily weather changes"},
+                    {q: "23. Which sphere includes all frozen water on Earth?", options: ["Hydrosphere", "Cryosphere", "Lithosphere"], answer: "Cryosphere"},
+                    {q: "24. What happens to radiant energy when it reaches Earth?", options: ["It is fully absorbed", "It is absorbed, reflected, or transmitted", "It is completely reflected"], answer: "It is absorbed, reflected, or transmitted"},
+                    {q: "25. Which factor has the greatest impact on global climate?", options: ["Sun's energy", "Earth's core heat", "Human activity"], answer: "Sun's energy"},
+                    {q: "26. What drives ocean currents?", options: ["Tides", "Thermohaline circulation", "Volcanic activity"], answer: "Thermohaline circulation"},
+                    {q: "27. What type of energy does Earth radiate back into space?", options: ["High-energy radiation", "Low-energy radiation", "Gamma rays"], answer: "Low-energy radiation"},
+                    {q: "28. Which greenhouse gas is primarily human-caused?", options: ["CO2", "CH4", "CFCs"], answer: "CFCs"},
+                    {q: "29. What is a major short-term factor affecting climate?", options: ["Deforestation", "Volcanic eruptions", "Agriculture"], answer: "Volcanic eruptions"},
+                    {q: "30. What is the process that moves heat through the atmosphere and hydrosphere?", options: ["Conduction", "Convection", "Radiation"], answer: "Convection"},
+                    {q: "31. What does permafrost store that affects climate when released?", options: ["Oxygen", "Greenhouse gases", "Nitrogen"], answer: "Greenhouse gases"},
+                    {q: "32. How does proximity to water influence climate?", options: ["Water stabilizes temperature changes", "Water increases temperature swings", "Water has no effect on climate"], answer: "Water stabilizes temperature changes"},
+                    {q: "33. What is the main cause of sea level rise?", options: ["Evaporation", "Melting ice", "Increased rainfall"], answer: "Melting ice"},
+                    {q: "34. What is a key function of the lithosphere in climate systems?", options: ["Absorbing and radiating energy", "Producing greenhouse gases", "Generating winds"], answer: "Absorbing and radiating energy"},
+                    {q: "35. What happens when ice and snow melt due to global warming?", options: ["More energy is reflected", "More energy is absorbed", "There is no effect on energy balance"], answer: "More energy is absorbed"},
+                    {q: "36. What is the primary reason for creating artificial glaciers (stupas) in the Himalayas?", options: ["To generate hydroelectric power", "To store water for farming", "To cool the atmosphere"], answer: "To store water for farming"},
+                    {q: "37. What are proxy records used for?", options: ["Predicting future weather", "Reconstructing past climates", "Measuring current temperatures"], answer: "Reconstructing past climates"},
+                    {q: "38. Which of the following is NOT a proxy record?", options: ["Tree rings", "Weather satellite data", "Ice cores"], answer: "Weather satellite data"},
+                    {q: "39. What does the thickness of tree rings indicate?", options: ["Age of the tree only", "Past precipitation and temperature", "Oxygen levels in the atmosphere"], answer: "Past precipitation and temperature"},
+                    {q: "40. How does the greenhouse effect impact Earth's temperature?", options: ["It cools the planet", "It traps heat and warms the planet", "It blocks all sunlight"], answer: "It traps heat and warms the planet"},
+                    {q: "41. What is mitigation in the context of climate change?", options: ["Adjusting to climate change", "Reducing greenhouse gas emissions", "Building sea walls"], answer: "Reducing greenhouse gas emissions"},
+                    {q: "42. What is an example of climate adaptation?", options: ["Using renewable energy", "Developing drought-resistant crops", "Reducing carbon emissions"], answer: "Developing drought-resistant crops"}
+
+                ];
+                for (let i = 0; i < questions.length; i++) {
+                    document.write('<div class="question" id="q' + (i + 1) + '">');
+                    document.write('<p>' + questions[i].q + '</p>');
+                    for (let j = 0; j < questions[i].options.length; j++) {
+                        document.write('<input type="radio" name="q' + (i + 1) + '" value="' + questions[i].options[j] + '"> ' + questions[i].options[j] + '<br>');
+                    }
+                    document.write('</div>');
+                }
+            </script>
+            <button type="button" onclick="checkAnswers()">Submit</button>
+        </form>
+        <p class="result" id="result"></p>
+    </div>
+    <script>
+        function checkAnswers() {
+            let score = 0;
+            let answers = {};
+            for (let i = 0; i < questions.length; i++) {
+                answers["q" + (i + 1)] = questions[i].answer;
+            }
+            let form = document.getElementById("quiz-form");
+            for (let key in answers) {
+                let selected = form[key] ? form[key].value : "";
+                let questionDiv = document.getElementById(key);
+                if (selected === answers[key]) {
+                    score++;
+                    questionDiv.classList.remove("incorrect");
+                } else {
+                    questionDiv.classList.add("incorrect");
+                }
+            }
+            document.getElementById("result").innerText = "You scored " + score + " out of " + Object.keys(answers).length + "!";
+        }
+    </script>
+</body>
+</html>
+
