@@ -15,10 +15,14 @@
 <body>
     <div class="quiz-container">
         <h1>Climate Systems Quiz</h1>
-        <form id="quiz-form">
-            <script>
-                let questions = [
-                    {q: "1. What layer of the atmosphere does weather occur in?", options: ["Stratosphere", "Troposphere", "Mesosphere"], answer: "Troposphere"},
+        <form id="quiz-form"></form>
+        <button type="button" onclick="checkAnswers()">Submit</button>
+        <p class="result" id="result"></p>
+    </div>
+    
+    <script>
+        let questions = [
+            {q: "1. What layer of the atmosphere does weather occur in?", options: ["Stratosphere", "Troposphere", "Mesosphere"], answer: "Troposphere"},
                     {q: "2. Which factor does NOT affect climate?", options: ["Altitude", "Proximity to water", "Moon phases"], answer: "Moon phases"},
                     {q: "3. What process moves thermal energy through the atmosphere and hydrosphere?", options: ["Conduction", "Convection", "Radiation"], answer: "Convection"},
                     {q: "4. What greenhouse gas is NOT naturally occurring?", options: ["CO2", "CFCs", "CH4"], answer: "CFCs"},
@@ -38,7 +42,7 @@
                     {q: "18. What is the impact of melting glaciers?", options: ["Rising sea levels", "Lower temperatures", "Increased snowfall"], answer: "Rising sea levels"},
                     {q: "19. What is the main reason sea levels rise?", options: ["Melting ice", "Evaporation", "Tectonic shifts"], answer: "Melting ice"},
                     {q: "20. What is a major contributor to carbon emissions?", options: ["Transportation", "Deforestation", "Both"], answer: "Both"},
-                    {q: "21-50. More questions related to climate systems, proxy records, adaptation, and mitigation..."}
+              
                     {q: "21. What is the primary cause of weather changes?", options: ["Earth's rotation", "Energy from the Sun", "Ocean tides"], answer: "Energy from the Sun"},
                     {q: "22. What factor does NOT significantly influence climate?", options: ["Latitude", "Proximity to water", "Daily weather changes"], answer: "Daily weather changes"},
                     {q: "23. Which sphere includes all frozen water on Earth?", options: ["Hydrosphere", "Cryosphere", "Lithosphere"], answer: "Cryosphere"},
@@ -61,42 +65,57 @@
                     {q: "40. How does the greenhouse effect impact Earth's temperature?", options: ["It cools the planet", "It traps heat and warms the planet", "It blocks all sunlight"], answer: "It traps heat and warms the planet"},
                     {q: "41. What is mitigation in the context of climate change?", options: ["Adjusting to climate change", "Reducing greenhouse gas emissions", "Building sea walls"], answer: "Reducing greenhouse gas emissions"},
                     {q: "42. What is an example of climate adaptation?", options: ["Using renewable energy", "Developing drought-resistant crops", "Reducing carbon emissions"], answer: "Developing drought-resistant crops"}
+        ]; // Shortened for brevity
 
-                ];
-                for (let i = 0; i < questions.length; i++) {
-                    document.write('<div class="question" id="q' + (i + 1) + '">');
-                    document.write('<p>' + questions[i].q + '</p>');
-                    for (let j = 0; j < questions[i].options.length; j++) {
-                        document.write('<input type="radio" name="q' + (i + 1) + '" value="' + questions[i].options[j] + '"> ' + questions[i].options[j] + '<br>');
-                    }
-                    document.write('</div>');
-                }
-            </script>
-            <button type="button" onclick="checkAnswers()">Submit</button>
-        </form>
-        <p class="result" id="result"></p>
-    </div>
-    <script>
+        function loadQuestions() {
+            let quizForm = document.getElementById("quiz-form");
+            questions.forEach((question, index) => {
+                let div = document.createElement("div");
+                div.classList.add("question");
+                div.id = "q" + (index + 1);
+
+                let p = document.createElement("p");
+                p.innerText = question.q;
+                div.appendChild(p);
+
+                question.options.forEach(option => {
+                    let label = document.createElement("label");
+                    let input = document.createElement("input");
+                    input.type = "radio";
+                    input.name = "q" + (index + 1);
+                    input.value = option;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(" " + option));
+                    div.appendChild(label);
+                    div.appendChild(document.createElement("br"));
+                });
+
+                quizForm.appendChild(div);
+            });
+        }
+
         function checkAnswers() {
             let score = 0;
-            let answers = {};
-            for (let i = 0; i < questions.length; i++) {
-                answers["q" + (i + 1)] = questions[i].answer;
-            }
+            let total = questions.length;
             let form = document.getElementById("quiz-form");
-            for (let key in answers) {
-                let selected = form[key] ? form[key].value : "";
+
+            questions.forEach((question, index) => {
+                let key = "q" + (index + 1);
+                let selected = form[key].value;
                 let questionDiv = document.getElementById(key);
-                if (selected === answers[key]) {
+
+                if (selected === question.answer) {
                     score++;
                     questionDiv.classList.remove("incorrect");
                 } else {
                     questionDiv.classList.add("incorrect");
                 }
-            }
-            document.getElementById("result").innerText = "You scored " + score + " out of " + Object.keys(answers).length + "!";
+            });
+
+            document.getElementById("result").innerText = "You scored " + score + " out of " + total + "!";
         }
+
+        loadQuestions();
     </script>
 </body>
 </html>
-
